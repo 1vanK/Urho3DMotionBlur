@@ -2,6 +2,8 @@
 
 Пример для статьи https://habrahabr.ru/post/301092/
 
+![](https://raw.githubusercontent.com/1vanK/Urho3DHabrahabr06/master/Preview.gif)
+
 Лицензия на код: Public Domain
 
 В демке использованы ресурсы:
