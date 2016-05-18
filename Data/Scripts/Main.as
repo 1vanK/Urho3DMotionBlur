@@ -58,6 +58,13 @@ void HandleUpdate(StringHash eventType, VariantMap& eventData)
     if (input.keyDown[KEY_ESC])
         engine.Exit();
         
+     if (input.keyPress[KEY_F12])
+     {
+         Image@ screenshot = Image();
+         graphics.TakeScreenShot(screenshot);
+         screenshot.SavePNG("Screenshot_" + time.timeStamp.Replaced(':', '_').Replaced('.', '_').Replaced(' ', '_') + ".png");
+     }
+        
     // Замедляем программу, чтобы посмотреть, как шейдер себя ведет при низком ФПС.
     /*for (int i = 0; i < 10000; i++)
     {
