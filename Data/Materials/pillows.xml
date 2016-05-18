@@ -1,0 +1,8 @@
+<material>
+	<technique name="Techniques/DiffUnlitDepth.xml"/>
+	<texture name="Textures/pillows.jpg" unit="diffuse"/>
+	<parameter name="MatDiffColor" value="1 1 1 1"/>
+	<parameter name="MatSpecColor" value="0.5 0.5 0.5 50"/>
+	<cull value="none"/>
+	<shadowcull value="none"/>
+</material>

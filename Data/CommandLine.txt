@@ -1,0 +1,1 @@
+Scripts/Main.as -p Data;CoreData;Final -w -x 800 -y 600 -v

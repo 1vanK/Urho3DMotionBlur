@@ -1,0 +1,2 @@
+Materials/weapon_metal.xml
+Materials/weapon_wood.xml
