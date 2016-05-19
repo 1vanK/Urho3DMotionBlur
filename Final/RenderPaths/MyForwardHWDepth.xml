@@ -1,25 +1,24 @@
 <renderpath>
+    <rendertarget name="screen" sizedivisor="1 1" format="rgba" filter="false" />
     <rendertarget name="depth" sizedivisor="1 1" format="readabledepth" />
+
+    <command type="clear" color="fog" output="screen" />
     <command type="clear" depth="1.0" output="depth" />
+
     <command type="scenepass" pass="shadow" output="depth" />
-    <command type="clear" color="fog" depthstencil="depth" />
-    <command type="scenepass" pass="base" vertexlights="true" metadata="base" depthstencil="depth" />
-    <command type="forwardlights" pass="light" depthstencil="depth" />
-    <command type="scenepass" pass="postopaque" depthstencil="depth" />
-    <command type="scenepass" pass="refract" depthstencil="depth">
+    <command type="scenepass" pass="base" vertexlights="true" metadata="base" depthstencil="depth" output="screen" />
+    <command type="forwardlights" pass="light" depthstencil="depth" output="screen" />
+    <command type="scenepass" pass="postopaque" depthstencil="depth" output="screen" />
+    <command type="scenepass" pass="refract" depthstencil="depth" output="screen">
         <texture unit="environment" name="viewport" />
     </command>
-    <command type="scenepass" pass="alpha" vertexlights="true" sort="backtofront" metadata="alpha" depthstencil="depth"  />
-    <command type="scenepass" pass="postalpha" sort="backtofront" depthstencil="depth" />
+    <command type="scenepass" pass="alpha" vertexlights="true" sort="backtofront" metadata="alpha" depthstencil="depth" output="screen" />
+    <command type="scenepass" pass="postalpha" sort="backtofront" depthstencil="depth" output="screen" />
 
     <command type="quad" tag="MotionBlur" vs="MotionBlur" ps="MotionBlur" output="viewport">
-        <texture unit="diffuse" name="viewport" />
+        <texture unit="diffuse" name="screen" />
         <texture unit="depth" name="depth" />
         <parameter name="OldViewProj" value="0" />
         <parameter name="TimeStep" value="0" />
     </command>
-
-    <command type="clear" depth="1.0" output="depth" />
-    <command type="scenepass" pass="weaponbase" depthstencil="depth" />
-    <command type="forwardlights" pass="weaponlight" depthstencil="depth" />
 </renderpath>

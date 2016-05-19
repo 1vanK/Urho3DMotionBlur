@@ -22,24 +22,11 @@ void VS()
     vGBufferOffsets = cGBufferOffsets;
 }
 
+#line 0
 void PS()
 {
-    float weaponmask = texture2DProj(sDiffMap, vScreenPos).a;
-    
-    //gl_FragColor = vec4(mask);
-    //return;
-    
-    if (weaponmask == 0)
-    {
-        gl_FragColor = texture2DProj(sDiffMap, vScreenPos).rgba;
-        return;
-    }
-    
-
     // HWDEPTH
     float depth = ReconstructDepth(texture2DProj(sDepthBuffer, vScreenPos).r);
-    
-    
 
     vec3 worldPos = vFarRay * depth / vScreenPos.w;
     worldPos += cCameraPosPS;
@@ -47,12 +34,11 @@ void PS()
     vec4 oldClipPos = vec4(worldPos, 1.0) * cOldViewProj;
     oldClipPos /= oldClipPos.w;
 
-    vec4 oldScreenPos = vec4(oldClipPos.x * vGBufferOffsets.z + vGBufferOffsets.x * oldClipPos.w,
-                        oldClipPos.y * vGBufferOffsets.w + vGBufferOffsets.y * oldClipPos.w,
-                        0.0, oldClipPos.w);
+    vec2 oldScreenPos = vec2(oldClipPos.x * vGBufferOffsets.z + vGBufferOffsets.x * oldClipPos.w,
+                        oldClipPos.y * vGBufferOffsets.w + vGBufferOffsets.y * oldClipPos.w);
 
     // Расстояние на экране, которое прошел пиксель с прошлого кадра.
-    vec4 offset = (vScreenPos - oldScreenPos);
+    vec2 offset = (vScreenPos.xy - oldScreenPos);
     // При большой частоте кадров расстояния очень малы и эффект размытия становится незаметен.
     // Поэтому используем промежуток времени с прошлого кадра как коэффициент, чтобы сделать эффект
     // размытия независимым от ФПС.
@@ -65,29 +51,19 @@ void PS()
 
     int samples = 20;
     
-#line 0
     // Суммируем пиксели в направлении движения на расстояние dist / 2 в каждую сторону
     // от рассматриваемого пикселя.
-    vec4 startPos = vScreenPos + offset * -0.5;
-    vec4 step = offset / (samples - 1);
-    //vec3 sum = texture2DProj(sDiffMap, pos).rgb;
+    vec2 pos = vScreenPos.xy + offset * -0.5;
+    vec2 step = offset / (samples - 1);
+    vec3 sum = texture2D(sDiffMap, pos).rgb;
     
-    vec3 sum = vec3(0.0);
-    
-    float goodSamples = 0;
-    
-    for (float i = 0; i < samples; i++)
+    for (int i = 1; i < samples; i++)
     {
-        //vec4 pos = vScreenPos + offset * ( ( i / ( samples - 1 ) ) - 0.5 );
-        vec4 pos = startPos + step * i;
-        float weponmask = texture2DProj(sDiffMap, pos).a;
-        
-        sum += texture2DProj(sDiffMap, pos).rgb * weponmask;
-        goodSamples += weponmask;
+        pos += step;
+        sum += texture2D(sDiffMap, pos).rgb;
     }
 
-    vec3 color = sum / goodSamples;
-    
+    vec3 color = sum / samples;
 	
     gl_FragColor = vec4(color, 1);
 }

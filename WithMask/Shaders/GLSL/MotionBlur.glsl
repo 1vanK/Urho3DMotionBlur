@@ -24,17 +24,12 @@ void VS()
 
 void PS()
 {
-    float weaponmask = texture2DProj(sDiffMap, vScreenPos).a;
-    
-    //gl_FragColor = vec4(mask);
-    //return;
-    
-    if (weaponmask == 0)
+    vec3 mask = texture2DProj(sNormalMap, vScreenPos).rgb;
+    if (mask.r > 0)
     {
         gl_FragColor = texture2DProj(sDiffMap, vScreenPos).rgba;
         return;
     }
-    
 
     // HWDEPTH
     float depth = ReconstructDepth(texture2DProj(sDepthBuffer, vScreenPos).r);
@@ -80,10 +75,11 @@ void PS()
     {
         //vec4 pos = vScreenPos + offset * ( ( i / ( samples - 1 ) ) - 0.5 );
         vec4 pos = startPos + step * i;
-        float weponmask = texture2DProj(sDiffMap, pos).a;
-        
-        sum += texture2DProj(sDiffMap, pos).rgb * weponmask;
-        goodSamples += weponmask;
+        vec4 mask = texture2DProj(sNormalMap, pos).rgba;
+        if (mask.r > 0)
+            continue;
+        sum += texture2DProj(sDiffMap, pos).rgb * (1 - mask.r);
+        goodSamples += (1 - mask.r);
     }
 
     vec3 color = sum / goodSamples;

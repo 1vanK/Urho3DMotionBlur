@@ -1,0 +1,5 @@
+<technique vs="LitSolid" ps="LitSolid" psdefines="DIFFMAP">
+    <pass name="weaponbase" />
+    <pass name="weaponlight" psdefines="SPECMAP" depthtest="equal" depthwrite="false" blend="add" />
+    <pass name="noblurmask" vs="Mask" ps="Mask" depthtest="always" />
+</technique>

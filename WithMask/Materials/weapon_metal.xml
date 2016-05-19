@@ -1,0 +1,11 @@
+<material>
+	<technique name="Techniques/DiffEnvCubeWeapon.xml" />
+	<texture name="Textures/colt.jpg" unit="diffuse"/>
+	<texture name="Textures/colt.jpg" unit="specular"/>
+	<texture unit="environment" name="Textures/EnvBlurred.xml" />
+	<parameter name="MatEnvMapColor" value="0.15 0.15 0.15 1"/>
+	<parameter name="MatDiffColor" value="1 1 1 1"/>
+	<parameter name="MatSpecColor" value="1 1 1 50"/>
+	<cull value="none"/>
+	<shadowcull value="none"/>
+</material> 

@@ -1,4 +1,5 @@
-<technique vs="MyLitSolid" ps="MyLitSolid" psdefines="DIFFMAP">
+<technique vs="LitSolid" ps="LitSolid" psdefines="DIFFMAP">
     <pass name="base" vsdefines="ENVCUBEMAP" psdefines="ENVCUBEMAP" />
     <pass name="light" depthtest="equal" depthwrite="false" blend="add" />
+    <pass name="noblurmask" vs="Mask" ps="Mask" depthtest="always" />
 </technique>
