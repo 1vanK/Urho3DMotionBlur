@@ -1,6 +1,6 @@
 # Urho3D Motion Blur
 
-![](https://raw.githubusercontent.com/1vanK/Urho3DHabrahabr06/master/Preview.gif)
+![](https://raw.githubusercontent.com/1vanK/Urho3DMotionBlur/master/Preview.gif)
 
 Лицензия на код: Public Domain
 
